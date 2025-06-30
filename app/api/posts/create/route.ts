@@ -1,10 +1,11 @@
 // app/api/posts/create/route.ts
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
-import { Post } from '@/models/Post';
+import { Post, IPost } from '@/models/Post';
 import { nanoid } from 'nanoid';
 import { JSDOM } from 'jsdom';
 import createDOMPurify from 'dompurify';
+import mongoose from 'mongoose';
 
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
@@ -27,7 +28,12 @@ export async function POST(req: Request) {
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/(^-|-$)+/g, '') + '-' + nanoid(5);
 
-    const post = await Post.create({ title, content: cleanContent, slug });
+    // ✅ Fix the Mongoose TS overload issue using a type cast
+    const post = await (Post as mongoose.Model<IPost>).create({
+      title,
+      content: cleanContent,
+      slug,
+    });
 
     return NextResponse.json({ message: 'Post created', post });
   } catch (error) {
