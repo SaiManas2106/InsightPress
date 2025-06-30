@@ -1,11 +1,16 @@
+// app/api/posts/route.ts
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
-import { Post } from '@/models/Post';
+import { Post, IPost } from '@/models/Post';
+import mongoose from 'mongoose';
 
 export async function GET() {
   try {
     await dbConnect();
-    const posts = await Post.find().sort({ createdAt: -1 });
+
+    // ✅ Fix: Cast Post to proper Mongoose model type
+    const posts = await (Post as mongoose.Model<IPost>).find().sort({ createdAt: -1 });
+
     return NextResponse.json({ posts });
   } catch (error) {
     console.error('GET /api/posts error:', error);
