@@ -4,9 +4,7 @@
 - **Admin**: Can create, edit, and delete blog posts.
 - **Reader**: Can view published blog posts.
 
-🌐 **Live Site:** [insight-press-6heo.vercel.app
-](insight-press-6heo.vercel.app
-)  
+🌐 **Live Site:** [https://insight-press-6heo.vercel.app/](https://insight-press-6heo.vercel.app/)  
 
 The platform features rich text blog creation, dark mode styling, secure authentication, and XSS protection.
 
